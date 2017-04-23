@@ -1,0 +1,6 @@
+書籍資料表 book
+id,subject,content,createtime,endupdate,user,file
+書籍回覆表 bookreply
+id,bid,content,user,createtime
+會員資料表 user
+id,username,password,email,usertype
