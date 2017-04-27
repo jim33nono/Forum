@@ -40,7 +40,7 @@ import com.yesee.ntp.model.service.BookService;
 
 @Controller
 
-public class Login {
+public class MainController {
 
 	@Autowired
 	private LoginService service;
@@ -52,6 +52,7 @@ public class Login {
 	public  ModelAndView index() {		
        List<UserInfo> user = (List<UserInfo>)service.findUser();    
        return new ModelAndView("index","finduser",user);
+       
 	}
 	
 	
@@ -109,6 +110,13 @@ public class Login {
     model.addAttribute("usertype", usertype);
     
     List<BookInfo> book = (List<BookInfo>)bookservice.findBook();
+    if (book.size() != 0) {
+    	for (BookInfo bookInfo : book){
+    		if (bookInfo.getContent().length() > 100) {
+    			bookInfo.setContent(bookInfo.getContent().substring(0, 101) + "...");
+    		}
+    	}
+    }
     
     return new ModelAndView("bookIndex","findbook",book);
     
@@ -369,10 +377,11 @@ public class Login {
 			String name = files.getOriginalFilename();
 
 			try {
-				msg = "Success";
+				
 				String filePath = "C://J2EE/J2EEwork/SpringMaven/src/main/webapp/upload/upload/"+ name ;
 							
 				files.transferTo(new File(filePath));
+				msg = "Success";
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -380,7 +389,7 @@ public class Login {
 			} 
 	      		
 	        return msg;
-	    }
+	    } 
 	 
 	 @RequestMapping(value = "/doUpateupload", method = RequestMethod.POST)
 	 @ResponseBody
@@ -397,11 +406,11 @@ public class Login {
 
 			
 			try {
-				msg = "Success";
+				
 				String filePath ="C://J2EE/J2EEwork/SpringMaven/src/main/webapp/upload/"+ name ;
 							
 				files.transferTo(new File(filePath));
-				
+				msg = "Success";
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
